@@ -1,0 +1,8 @@
+module.exports = {
+  demo : {
+    cmd: 'echo hello ${YALLA_USERNAME}',
+    env: {
+      YALLA_USERNAME: 'YALLA!!'
+    }
+  }
+}

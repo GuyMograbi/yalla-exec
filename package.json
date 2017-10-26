@@ -1,0 +1,7 @@
+{
+  "name": "yalla",
+  "version": "0.0.0",
+  "bin": {
+    "yalla": "yalla.js"
+  }
+}
