@@ -1,4 +1,4 @@
-# Yalla
+# Yalla-Exec
 
 > Manage commands alongside environment variables. Use configuration file.
 
@@ -7,7 +7,7 @@
 Install using
 
 ```
-npm install -g yalla
+npm install -g yalla-exec
 ```
 
 Create a file named `.yalla`.

@@ -1,5 +1,5 @@
 {
-  "name": "yalla",
+  "name": "yalla-exec",
   "version": "0.0.0",
   "bin": {
     "yalla": "yalla.js"
