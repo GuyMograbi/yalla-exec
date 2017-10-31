@@ -3,5 +3,8 @@
   "version": "0.0.1",
   "bin": {
     "yalla": "yalla.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   }
 }

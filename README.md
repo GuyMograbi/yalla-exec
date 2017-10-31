@@ -39,4 +39,5 @@ hello YALLA!
 
 # Roadmap
 
+ - [X] support object values for environment variables
  - [ ] support JSON & Yaml configurations

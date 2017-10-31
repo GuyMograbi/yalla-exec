@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const path = require('path');
 const conf = require(path.join(process.cwd(),'.yalla'))
+const _ = require('lodash');
 const [command, ...args] = process.argv.slice(2);
 
 if (!conf.hasOwnProperty(command)){
@@ -10,6 +11,12 @@ if (!conf.hasOwnProperty(command)){
 
 const spawnCommand = conf[command].cmd;
 const spawnEnv = Object.assign({}, process.env, conf[command].env);
+
+_.each(spawnEnv, (value, key)=>{ // support objects in json
+  if (_.isObject(value)){
+    spawnEnv[key] = JSON.stringify(value);
+  }
+})
 
 const { exec } = require('child_process');
 const child = exec(spawnCommand, {env: spawnEnv, stdio: 'inherit'});
