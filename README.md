@@ -40,4 +40,5 @@ hello YALLA!
 # Roadmap
 
  - [X] support object values for environment variables
- - [ ] support JSON & Yaml configurations
+ - [X] support JSON & Yaml configurations
+ - [ ] support passing flags from outside and declaring required/optional flags

@@ -5,6 +5,7 @@
     "yalla": "yalla.js"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "yamljs": "^0.3.0"
   }
 }

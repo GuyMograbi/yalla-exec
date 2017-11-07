@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const path = require('path');
-const conf = require(path.join(process.cwd(),'.yalla'))
+const YAML = require('yamljs');
+const conf = YAML.load(path.join(process.cwd(),'.yalla'))
 const _ = require('lodash');
 const [command, ...args] = process.argv.slice(2);
 
