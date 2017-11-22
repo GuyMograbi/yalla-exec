@@ -45,3 +45,4 @@ hello YALLA!
      - maybe flags should be mapped to environment variables overrides that will be injected into the command?
  - [ ] support running multiple commands 
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null 
+ - [ ] make it a legit npm library. with github links, automated testing on a CI and license. 
