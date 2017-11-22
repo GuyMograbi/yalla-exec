@@ -41,4 +41,7 @@ hello YALLA!
 
  - [X] support object values for environment variables
  - [X] support JSON & Yaml configurations
- - [ ] support passing flags from outside and declaring required/optional flags
+ - [ ] support passing flags from outside and declaring required/optional flags (especially for debug)
+     - maybe flags should be mapped to environment variables overrides that will be injected into the command?
+ - [ ] support running multiple commands 
+     - so just an array of of commands should be enough.. we can silence the output with > /dev/null 
