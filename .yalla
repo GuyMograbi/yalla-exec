@@ -1,5 +1,5 @@
 yalla: &yalla
   YALLA_USERNAME: 'YALLA!!'
 demo:
-  cmd: 'echo hello ${YALLA_USERNAME}'
+  cmd: 'echo hello <%= argv.i ? '' %> ${YALLA_USERNAME} <%= argv._[0] %>'
   env: *yalla
