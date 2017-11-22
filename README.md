@@ -6,7 +6,7 @@
 
 Install using
 
-```
+```bash
 npm install -g yalla-exec
 ```
 
