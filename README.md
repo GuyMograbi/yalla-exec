@@ -6,7 +6,7 @@
 
 Install using
 
-```
+```bash
 npm install -g yalla-exec
 ```
 
@@ -14,7 +14,7 @@ Create a file named `.yalla`.
 
 Add configuration such as
 
-```
+```javascript
 module.exports = {
   demo : {
     cmd: 'echo hello ${YALLA_USERNAME}',
@@ -27,13 +27,13 @@ module.exports = {
 
 Run command
 
-```
+```bash
 yalla demo
 ```
 
 You should see this output
 
-```
+```bash
 hello YALLA!
 ```
 
@@ -66,4 +66,7 @@ Will result in argv.config = { db_url: '...' , cors_regex: '...'}
 
  - [X] support object values for environment variables
  - [X] support JSON & Yaml configurations
- - [X] support passing flags from outside and declaring required/optional flags
+ - [X] support passing flags from outside and declaring required/optional flags (especially for debug)
+ - [ ] support running multiple commands
+     - so just an array of of commands should be enough.. we can silence the output with > /dev/null
+ - [ ] make it a legit npm library. with github links, automated testing on a CI and license.
