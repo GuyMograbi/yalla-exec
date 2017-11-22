@@ -14,7 +14,7 @@ Create a file named `.yalla`.
 
 Add configuration such as
 
-```
+```javascript
 module.exports = {
   demo : {
     cmd: 'echo hello ${YALLA_USERNAME}',
@@ -27,13 +27,13 @@ module.exports = {
 
 Run command
 
-```
+```bash
 yalla demo
 ```
 
 You should see this output
 
-```
+```bash
 hello YALLA!
 ```
 
@@ -46,3 +46,4 @@ hello YALLA!
  - [ ] support running multiple commands 
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null 
  - [ ] make it a legit npm library. with github links, automated testing on a CI and license. 
+
