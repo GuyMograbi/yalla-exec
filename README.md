@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/GuyMograbi/yalla-exec.svg?branch=master)](https://travis-ci.org/GuyMograbi/yalla-exec)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+[![npm version](https://badge.fury.io/js/yalla-exec.svg)](https://badge.fury.io/js/yalla-exec)
 
 
 > Manage commands alongside environment variables. Use configuration file.

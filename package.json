@@ -1,6 +1,26 @@
 {
   "name": "yalla-exec",
   "version": "0.0.6",
+  "author": {
+    "email": "guy.mograbi@gmail.com",
+    "name": "Guy Mograbi",
+    "url": "http://mograblog.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/GuyMograbi/yalla-exec/issues"
+  },
+  "homepage": "https://github.com/GuyMograbi/yalla-exec",
+  "keywords": [
+    "yalla",
+    "execute",
+    "command"
+  ],
+  "license": "MIT",
+  "main": "yalla.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GuyMograbi/yalla-exec.git"
+  },
   "bin": {
     "yalla": "yalla.js"
   },
