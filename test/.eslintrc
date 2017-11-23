@@ -1,0 +1,8 @@
+{
+  "root" : true,
+  "extends": ["standard"],
+  "parserOptions": { "ecmaVersion": 2017 },
+  "rules": {
+    "no-template-curly-in-string" : "off"
+  }
+}
