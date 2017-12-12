@@ -43,6 +43,55 @@ You should see this output
 hello YALLA!
 ```
 
+# Other configurations
+
+Yalla also supports configuration in `yaml`, `json` and inside `package.json`
+
+For `yaml` and `json` the filename should still be `.yalla`
+
+Example - yaml
+
+```yaml
+demo:
+  cmd: 'echo hello'
+```
+
+Exmple - json
+
+```json
+{
+  "demo":{
+    "cmd": "echo hello"
+  }
+}
+```
+
+and inside `pakcage.json` simply add a `yalla` property
+
+```json
+{
+  "name": "my-module",
+  "version" : "0.0.0",
+  "dependencies": {},
+  "yalla": {
+    "demo": {
+      "cmd": "echo hello"
+    }
+  }
+}
+```
+
+
+# List all commands
+
+To get a list of all possible commands in the configuration you can simply run `yalla` in the command line
+
+
+```bash
+> yalla
+demo
+```
+
 # Passing flags from outside
 
 Yalla uses minimist and lodash template to allow you to pass flags from outside
@@ -75,4 +124,4 @@ Will result in argv.config = { db_url: '...' , cors_regex: '...'}
  - [X] support passing flags from outside and declaring required/optional flags (especially for debug)
  - [ ] support running multiple commands
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null
- - [ ] make it a legit npm library. with github links, automated testing on a CI and license.
+ - [X] make it a legit npm library. with github links, automated testing on a CI and license.

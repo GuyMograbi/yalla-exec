@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const path = require('path')
-
+const fs = require('fs')
 const _ = require('lodash')
 
 /**
@@ -21,10 +21,15 @@ exports.exec = function (conf, command, opts) {
   opts = _.merge({}, {stdout: process.stdout, stderr: process.stderr}, opts)
   return new Promise((resolve) => {
     const command = _.first(argv._)
-
+    if (_.isEmpty(command)) {
+      listCommands(conf, opts.stdout)
+      resolve(1)
+      return
+    }
     if (!conf.hasOwnProperty(command)) {
       console.error('command [' + command + '] not in .yalla file')
-      process.exit(1)
+      resolve(1)
+      return
     }
 
     const spawnCommand = _.template(conf[command].cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
@@ -47,9 +52,61 @@ exports.exec = function (conf, command, opts) {
   })
 }
 
+const errors = []
+
+function getYallaYamlConfig (filepath) { // also handles json as json is a valid yaml
+  try {
+    const YAML = require('yamljs')
+    return YAML.load(filepath)
+  } catch (e) {
+    errors.push(e)
+    return null
+  }
+}
+
+function getYallaJsConfig (filepath) {
+  try {
+    return require(filepath)
+  } catch (e) {
+    errors.push(e)
+    return null
+  }
+}
+
+function getJsonConfig (filepath) {
+  try {
+    return JSON.parse(fs.readFileSync(filepath))
+  } catch (e) {
+    errors.push(e)
+    return null
+  }
+}
+
+function getPackageJsonConfig () {
+  try {
+    return require(path.join(process.cwd(), './package.json')).yalla
+  } catch (e) {
+    errors.push(e)
+    return null
+  }
+}
+
+function listCommands (conf, stdout) {
+  Object.keys(conf).forEach((c) => stdout.write(c + '\n'))
+}
+
+exports.getYallaConfiguration = function (filepath) {
+  const config = getYallaYamlConfig(filepath) || getYallaJsConfig(filepath) || getJsonConfig(filepath) || getPackageJsonConfig(filepath)
+
+  if (config === null) {
+    console.error('unable to load configuration in yaml or js', errors)
+    process.exit(1)
+  }
+  return config
+}
+
 if (!module.parent) {
-  const YAML = require('yamljs')
-  exports.exec(YAML.load(path.join(process.cwd(), '.yalla')), process.argv.slice(2)).then((code) => {
+  exports.exec(exports.getYallaConfiguration(path.join(process.cwd(), '.yalla')), process.argv.slice(2)).then((code) => {
     process.exit(code)
   })
 }
