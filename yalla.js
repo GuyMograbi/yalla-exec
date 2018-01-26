@@ -43,6 +43,9 @@ exports.exec = function (conf, command, opts) {
     })
 
     const { exec } = require('child_process')
+    if (argv.verbose) {
+      console.log(spawnCommand)
+    }
     const child = exec(spawnCommand, {env: spawnEnv, stdio: 'inherit'})
     child.stdout.pipe(opts.stdout)
     child.stderr.pipe(opts.stderr)
