@@ -3,8 +3,8 @@ const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
 
-function getVersion(){
-  return JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'))).version;
+function getVersion () {
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'))).version
 }
 /**
  * @typedef {Object} YallaItem
@@ -26,9 +26,9 @@ exports.exec = function (conf, command, opts) {
     const command = _.first(argv._)
     const target = _.first(_.slice(argv._, 1))
     if (_.isEmpty(command)) {
-      if (argv.version){
-        console.log(getVersion());
-        process.exit(0);
+      if (argv.version) {
+        console.log(getVersion())
+        process.exit(0)
       }
       listCommands(conf, opts.stdout)
       resolve(1)
