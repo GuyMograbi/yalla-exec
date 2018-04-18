@@ -3,6 +3,9 @@ const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
 
+function getVersion(){
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'))).version;
+}
 /**
  * @typedef {Object} YallaItem
  * @property {string} cmd the command
@@ -21,18 +24,37 @@ exports.exec = function (conf, command, opts) {
   opts = _.merge({}, {stdout: process.stdout, stderr: process.stderr}, opts)
   return new Promise((resolve) => {
     const command = _.first(argv._)
+    const target = _.first(_.slice(argv._, 1))
     if (_.isEmpty(command)) {
+      if (argv.version){
+        console.log(getVersion());
+        process.exit(0);
+      }
       listCommands(conf, opts.stdout)
       resolve(1)
       return
     }
-    if (!conf.hasOwnProperty(command)) {
+    if (!conf.hasOwnProperty(command) && !target) {
       console.error('command [' + command + '] not in .yalla file')
       resolve(1)
       return
     }
 
-    const spawnCommand = _.template(conf[command].cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
+    if (target && !conf.hasOwnProperty(target)) {
+      console.error('command [' + target + '] not in .yalla file')
+      resolve(1)
+      return
+    }
+
+    const compileCommand = (command) => _.template(conf[command].cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
+
+    if (command === 'print' && !!target) {
+      console.log(JSON.stringify(conf[target], {}, 2))
+      console.log(compileCommand(target))
+      process.exit(0)
+    }
+
+    const spawnCommand = compileCommand(command)
 
     const spawnEnv = Object.assign({}, process.env, conf[command].env)
 
