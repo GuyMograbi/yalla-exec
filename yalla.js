@@ -127,11 +127,17 @@ exports.getYallaConfiguration = function (filepath) {
     console.error('unable to load configuration in yaml or js', errors)
     process.exit(1)
   }
-  return config
+  return config || {}
 }
 
 if (!module.parent) {
-  exports.exec(exports.getYallaConfiguration(path.join(process.cwd(), '.yalla')), process.argv.slice(2)).then((code) => {
+  const findAllUp = require('find-all-up')
+  const files = findAllUp.sync('.yalla')
+  const config = {}
+  _.each(files, (f) => {
+    _.merge(config, exports.getYallaConfiguration(f))
+  })
+  exports.exec(config, process.argv.slice(2)).then((code) => {
     process.exit(code)
   })
 }

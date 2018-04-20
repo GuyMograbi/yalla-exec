@@ -126,3 +126,4 @@ Will result in argv.config = { db_url: '...' , cors_regex: '...'}
  - [ ] support running multiple commands
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null
  - [X] make it a legit npm library. with github links, automated testing on a CI and license.
+ - [X] support yalla files in parent directories
