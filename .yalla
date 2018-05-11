@@ -3,3 +3,4 @@ yalla: &yalla
 demo:
   cmd: 'echo hello <%= argv.i ? '' %> ${YALLA_USERNAME} <%= argv._[0] %>'
   env: *yalla
+  dirname: false # setting to false means command will execute from wherever you run the yalla command

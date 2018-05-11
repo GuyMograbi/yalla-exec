@@ -45,8 +45,8 @@ exports.exec = function (conf, command, opts) {
       resolve(1)
       return
     }
-
-    const compileCommand = (command) => _.template(conf[command].cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
+    const config = conf[command]
+    const compileCommand = (command) => _.template(config.cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
 
     if (command === 'print' && !!target) {
       console.log(JSON.stringify(conf[target], {}, 2))
@@ -56,7 +56,7 @@ exports.exec = function (conf, command, opts) {
 
     const spawnCommand = compileCommand(command)
 
-    const spawnEnv = Object.assign({}, process.env, conf[command].env)
+    const spawnEnv = Object.assign({}, process.env, config.env)
 
     _.each(spawnEnv, (value, key) => { // support objects in json
       if (_.isObject(value)) {
@@ -68,12 +68,23 @@ exports.exec = function (conf, command, opts) {
     if (argv.verbose) {
       console.log(spawnCommand)
     }
-    const child = exec(spawnCommand, {env: spawnEnv, stdio: 'inherit'})
-    child.stdout.pipe(opts.stdout)
-    child.stderr.pipe(opts.stderr)
-    child.on('close', (code) => {
-      resolve(code)
-    })
+    function run () {
+      const child = exec(spawnCommand, {cwd: config.dirname || process.cwd(), env: spawnEnv, stdio: 'inherit'})
+      child.stdout.pipe(opts.stdout)
+      child.stderr.pipe(opts.stderr)
+      child.on('close', (code) => {
+        if (config.keepUp) {
+          console.log('keepUp flag is on. restarting failed process that exited with code [' + code + ']')
+          run()
+        } else {
+          resolve(code)
+        }
+      })
+    }
+    if (config.keepUp) {
+      console.log('keepUp flag is on')
+    }
+    run()
   })
 }
 
@@ -135,7 +146,13 @@ if (!module.parent) {
   const files = findAllUp.sync('.yalla')
   const config = {}
   _.each(files, (f) => {
-    _.merge(config, exports.getYallaConfiguration(f))
+    const fileConfig = exports.getYallaConfiguration(f)
+    _.each(Object.values(fileConfig), (value) => {
+      if (value.cmd && !_.has(value, 'dirname')) {
+        _.set(value, 'dirname', path.dirname(f))
+      }
+    })
+    _.merge(config, fileConfig)
   })
   exports.exec(config, process.argv.slice(2)).then((code) => {
     process.exit(code)
