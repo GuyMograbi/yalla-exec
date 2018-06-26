@@ -127,7 +127,17 @@ function getPackageJsonConfig () {
 }
 
 function listCommands (conf, stdout) {
-  Object.keys(conf).forEach((c) => stdout.write(c + '\n'))
+  // console.log(Object.keys(conf));
+  _.mapValues(conf, (value, key) => {
+    return Object.assign(value, {key})
+  })
+  const byDirname = _.groupBy(conf, 'configfile')
+  // console.log(Object.keys(byDirname['false']));
+  Object.keys(byDirname).forEach((c) => {
+    stdout.write(c + '\n')
+    stdout.write(byDirname[c].map(k => `\t${k.key}`).join('\n'))
+    console.log('')
+  })
 }
 
 exports.getYallaConfiguration = function (filepath) {
@@ -150,6 +160,7 @@ if (!module.parent) {
       if (value.cmd && !_.has(value, 'dirname')) {
         _.set(value, 'dirname', path.dirname(f))
       }
+      _.set(value, 'configfile', f)
     })
     _.merge(config, fileConfig)
   })
