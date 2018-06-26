@@ -46,15 +46,14 @@ exports.exec = function (conf, command, opts) {
       return
     }
     const config = conf[command]
-    const compileCommand = (command) => _.template(config.cmd, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
-
+    const compileCommand = (command) => _.template(command, {interpolate: /<%=([\s\S]+?)%>/g})({argv})
     if (command === 'print' && !!target) {
       console.log(JSON.stringify(conf[target], {}, 2))
-      console.log(compileCommand(target))
+      console.log(compileCommand(conf[target].cmd))
       process.exit(0)
     }
 
-    const spawnCommand = compileCommand(command)
+    const spawnCommand = compileCommand(conf[command].cmd)
 
     const spawnEnv = Object.assign({}, process.env, config.env)
 
