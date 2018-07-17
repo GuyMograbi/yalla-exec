@@ -53,6 +53,13 @@ exports.exec = function (conf, command, opts) {
       process.exit(0)
     }
 
+    if (command === 'print-env' && !!target) {
+      const targetEnv = conf[target].env || {}
+      const envOutput = Object.keys(targetEnv).map(k => `export ${k}=${JSON.stringify(targetEnv[k])}`).join('\n')
+      console.log(envOutput)
+      process.exit(0)
+    }
+
     const spawnCommand = compileCommand(conf[command].cmd)
 
     const spawnEnv = Object.assign({}, process.env, config.env)
@@ -131,13 +138,20 @@ function listCommands (conf, stdout) {
   _.mapValues(conf, (value, key) => {
     return Object.assign(value, {key})
   })
+
   const byDirname = _.groupBy(conf, 'configfile')
+
+  const printCommands = (dir, commands) => {
+    stdout.write(dir + '\n')
+    stdout.write(commands.map(k => `\t${k.key}`).join('\n'))
+    console.log('')
+  }
+
   // console.log(Object.keys(byDirname['false']));
   Object.keys(byDirname).forEach((c) => {
-    stdout.write(c + '\n')
-    stdout.write(byDirname[c].map(k => `\t${k.key}`).join('\n'))
-    console.log('')
+    printCommands(c, byDirname[c])
   })
+  printCommands('general built in commands', [{key: 'print [command]'}, {key: 'print-env [command]'}, {key: '<leave empty>'}])
 }
 
 exports.getYallaConfiguration = function (filepath) {
