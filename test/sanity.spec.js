@@ -11,6 +11,7 @@ describe('yalla', function () {
   beforeEach(() => {
     stdout = through2(function (chunk, enc, callback) {
       output += chunk.toString()
+      callback()
     })
     output = '' // empty output
   })
@@ -34,8 +35,8 @@ describe('yalla', function () {
   })
 
   it('should list all commands if no command is given', function () {
-    return yalla.exec({demo: {cmd: 'echo hello'}}, [], {stdout}).then(() => {
-      expect(output).to.eq('demo\n')
+    return yalla.exec({foo: {cmd: 'echo hello', configfile: '.yalla'}}, [], {stdout}).then(() => {
+      expect(output).to.eq('.yalla\n\tfoogeneral built in commands\n\tprint [command]\n\tprint-env [command]\n\t<leave empty>')
     })
   })
 
