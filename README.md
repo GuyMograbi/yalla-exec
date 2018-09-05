@@ -122,8 +122,9 @@ Will result in argv.config = { db_url: '...' , cors_regex: '...'}
  - [X] support object values for environment variables
  - [X] support JSON & Yaml configurations
  - [X] support passing flags from outside and declaring required/optional flags (especially for debug)
+ - [X] make it a legit npm library. with github links, automated testing on a CI and license.
+ - [X] support yalla files in parent directories
+ - [X] support alternative working directories for commands
  - [ ] support 'watch' ability
  - [ ] support running multiple commands
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null
- - [X] make it a legit npm library. with github links, automated testing on a CI and license.
- - [X] support yalla files in parent directories
