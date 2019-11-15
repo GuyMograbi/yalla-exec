@@ -172,7 +172,7 @@ if (!module.parent) {
     const fileConfig = exports.getYallaConfiguration(f)
     _.each(Object.values(fileConfig), (value) => {
       if (value.cmd && !_.has(value, 'dirname')) {
-        _.set(value, 'dirname', path.dirname(f))
+        _.set(value, 'dirname', process.cwd())
       } else if (typeof (value.dirname) === 'string') {
         _.set(value, 'dirname', path.join(path.dirname(f), value.dirname))
       }
