@@ -75,7 +75,7 @@ exports.exec = function (conf, command, opts) {
       console.log(spawnCommand)
     }
     function run () {
-      const child = exec(spawnCommand, {cwd: config.dirname || process.cwd(), env: spawnEnv, stdio: 'inherit'})
+      const child = exec(spawnCommand, {maxBuffer: 104857600, cwd: config.dirname || process.cwd(), env: spawnEnv, stdio: 'inherit'})
       child.stdout.pipe(opts.stdout)
       child.stderr.pipe(opts.stderr)
       child.on('close', (code) => {
