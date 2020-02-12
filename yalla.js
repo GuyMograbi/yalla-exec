@@ -75,7 +75,7 @@ exports.exec = function (conf, command, opts) {
       console.log(spawnCommand)
     }
     function run () {
-      const child = exec(spawnCommand, {maxBuffer: 104857600, cwd: config.dirname || process.cwd(), env: spawnEnv, stdio: 'inherit'})
+      const child = exec(spawnCommand, {maxBuffer: 104857600, cwd: config.cwd || process.cwd(), env: spawnEnv, stdio: 'inherit'})
       child.stdout.pipe(opts.stdout)
       child.stderr.pipe(opts.stderr)
       child.on('close', (code) => {
@@ -171,11 +171,14 @@ if (!module.parent) {
   _.each(files, (f) => {
     const fileConfig = exports.getYallaConfiguration(f)
     _.each(Object.values(fileConfig), (value) => {
-      if (value.cmd && !_.has(value, 'dirname')) {
-        _.set(value, 'dirname', process.cwd())
-      } else if (typeof (value.dirname) === 'string') {
-        _.set(value, 'dirname', path.join(path.dirname(f), value.dirname))
+      if (value.cmd && !_.has(value, 'cwd')) {
+        _.set(value, 'cwd', process.cwd())
+      } else {
+        _.set(value, 'cwd', value.cwd)
       }
+
+      _.set(value, 'dirname', path.join(path.dirname(f)))
+
       _.set(value, 'configfile', f)
     })
     _.merge(config, fileConfig)
