@@ -117,6 +117,21 @@ yalla --config.db_url="..." --config.cors_regex="..."
 
 Will result in argv.config = { db_url: '...' , cors_regex: '...'}
 
+# FAQ
+
+## Where are my colors?
+
+> When I run the command directly - I see colors, but with yalla the colors are gone..    
+Why is that?
+
+Answer
+
+The reason this happens is some libraries auto-detect if the terminal (yalla in this case) supports color.    
+To force colors, just add environment variable `export FORCE_COLOR=1`
+
+See relevant thread: https://github.com/Marak/colors.js/issues/127
+
+
 # Roadmap
 
  - [X] support object values for environment variables
