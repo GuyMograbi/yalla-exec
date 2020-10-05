@@ -1,0 +1,2 @@
+dirTest:
+  cmd: echo hello from directory

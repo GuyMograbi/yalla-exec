@@ -164,25 +164,35 @@ exports.getYallaConfiguration = function (filepath) {
   return config || {}
 }
 
+function squashConfigFromFiles (files) {
+  const config = {}
+  _.each(files, (f) => {
+    let fileConfig = null
+    if (fs.lstatSync(f).isDirectory(f)) {
+      fileConfig = squashConfigFromFiles(fs.readdirSync(f).map(i => path.join(f, i)))
+    } else {
+      fileConfig = exports.getYallaConfiguration(f)
+      _.each(Object.values(fileConfig), (value) => {
+        if (value.cmd && !_.has(value, 'cwd')) {
+          _.set(value, 'cwd', process.cwd())
+        } else {
+          _.set(value, 'cwd', value.cwd)
+        }
+
+        _.set(value, 'dirname', path.join(path.dirname(f)))
+
+        _.set(value, 'configfile', f)
+      })
+    }
+    _.merge(config, fileConfig)
+  })
+  return config
+}
+
 if (!module.parent) {
   const findAllUp = require('find-all-up')
   const files = findAllUp.sync('.yalla')
-  const config = {}
-  _.each(files, (f) => {
-    const fileConfig = exports.getYallaConfiguration(f)
-    _.each(Object.values(fileConfig), (value) => {
-      if (value.cmd && !_.has(value, 'cwd')) {
-        _.set(value, 'cwd', process.cwd())
-      } else {
-        _.set(value, 'cwd', value.cwd)
-      }
-
-      _.set(value, 'dirname', path.join(path.dirname(f)))
-
-      _.set(value, 'configfile', f)
-    })
-    _.merge(config, fileConfig)
-  })
+  const config = squashConfigFromFiles(files)
   exports.exec(config, process.argv.slice(2)).then((code) => {
     process.exit(code)
   })

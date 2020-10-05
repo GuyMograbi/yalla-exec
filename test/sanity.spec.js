@@ -3,6 +3,7 @@ const through2 = require('through2')
 const yalla = require('../yalla')
 const expect = require('chai').expect
 const path = require('path')
+const shell = require('shelljs')
 
 describe('yalla', function () {
   let output = ''
@@ -38,6 +39,11 @@ describe('yalla', function () {
     return yalla.exec({foo: {cmd: 'echo hello', configfile: '.yalla'}}, [], {stdout}).then(() => {
       expect(output).to.eq('.yalla\n\tfoogeneral built in commands\n\tprint [command]\n\tprint-env [command]\n\t<leave empty>')
     })
+  })
+
+  it('should load configuration from files', function () {
+    const output = shell.exec('echo hello', {cwd: path.join(__dirname, '../dir-example')})
+    expect(output.stdout).to.eq('hello\n')
   })
 
   describe('loading configuration', function () {

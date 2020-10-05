@@ -81,6 +81,8 @@ and inside `pakcage.json` simply add a `yalla` property
 }
 ```
 
+__another option__: directory `.yalla` - expected to only contain configuration files
+
 
 # List all commands
 
@@ -121,25 +123,29 @@ Will result in argv.config = { db_url: '...' , cors_regex: '...'}
 
 ## Where are my colors?
 
-> When I run the command directly - I see colors, but with yalla the colors are gone..    
+> When I run the command directly - I see colors, but with yalla the colors are gone..
 Why is that?
 
 Answer
 
-The reason this happens is some libraries auto-detect if the terminal (yalla in this case) supports color.    
+The reason this happens is some libraries auto-detect if the terminal (yalla in this case) supports color.
 To force colors, just add environment variable `export FORCE_COLOR=1`
 
 See relevant thread: https://github.com/Marak/colors.js/issues/127
 
+# Changelist
+
+ * October 4 2020 - add support for directories.
 
 # Roadmap
-
+ - [X] support directories
  - [X] support object values for environment variables
  - [X] support JSON & Yaml configurations
  - [X] support passing flags from outside and declaring required/optional flags (especially for debug)
  - [X] make it a legit npm library. with github links, automated testing on a CI and license.
  - [X] support yalla files in parent directories
  - [X] support alternative working directories for commands
+
  - [ ] support 'watch' ability
  - [ ] support running multiple commands
      - so just an array of of commands should be enough.. we can silence the output with > /dev/null
