@@ -172,7 +172,12 @@ function squashConfigFromFiles (files) {
       fileConfig = squashConfigFromFiles(fs.readdirSync(f).map(i => path.join(f, i)))
     } else {
       fileConfig = exports.getYallaConfiguration(f)
-      _.each(Object.values(fileConfig), (value) => {
+      _.each(Object.keys(fileConfig), (key) => {
+        const value = fileConfig[key]
+        if (typeof value !== 'object') {
+          console.error(`file [${f}] contains invalid definition [${key}]. value [${value}] should be an object`)
+          process.exit(1)
+        }
         if (value.cmd && !_.has(value, 'cwd')) {
           _.set(value, 'cwd', process.cwd())
         } else {
@@ -186,6 +191,7 @@ function squashConfigFromFiles (files) {
     }
     _.merge(config, fileConfig)
   })
+  debugger;
   return config
 }
 
