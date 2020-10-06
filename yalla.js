@@ -142,8 +142,8 @@ function listCommands (conf, stdout) {
   const byDirname = _.groupBy(conf, 'configfile')
 
   const printCommands = (dir, commands) => {
-    stdout.write(dir + '\n')
-    stdout.write(commands.map(k => `\t${k.key}`).join('\n'))
+    stdout.write('\n')
+    stdout.write(commands.map(k => `${dir}\t${k.key}`).join('\n'))
     console.log('')
   }
 
